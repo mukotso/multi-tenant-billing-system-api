@@ -9,7 +9,9 @@ docker compose up --build -d \
 && echo -e "\n${PURPLE} Running database migrations \n ${NC}" \
 &&  docker exec flavors php artisan migrate \
 && echo -e "\n${PURPLE} seed data to database \n ${NC}" \
-&&  docker exec flavors php artisan db:seed \
+&&  docker exec tours php artisan db:seed 
+&& echo -e "\n${PURPLE} create jwt secrets \n ${NC}" \
+&&  docker exec tours php artisan jwt:secret
 && echo -e "\n${PURPLE} Obtaining the necessary permissions for the sessions and the local storage ... \n ${NC}" \
 &&  sudo chmod -R 777 storage/framework/* \
 &&  sudo chmod -R 777 storage/* \
