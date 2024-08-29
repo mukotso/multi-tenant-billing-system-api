@@ -1,0 +1,46 @@
+/node_modules
+/public/hot
+/public/storage
+/public/icomoon/icomoon.css
+/public/css/app.css
+/public/js/app.js
+/public/mix-manifest.json
+/storage/*.key
+/storage/framework/cache
+
+/vendor
+.env
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/data
+.DS_Store
+/storage/logs
+.jsbeautifyrc
+.jshintrc
+
+# User-specific stuff:
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/php.xml
+.idea/commandlinetools
+
+# Sensitive or high-churn files:
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+.idea/php.xml
+#.idea/uwc.iml
+
+# VSCode User Preferences
+.vscode
+.idea/inspectionProfiles/Project_Default.xml
+
