@@ -3,7 +3,7 @@
 #Build docker image
 docker compose up --build -d \
 && echo -e "\n${PURPLE} Please wait while installing composer Packages ... \n ${NC}" \
-&&  sleep 5 && docker exec fingerprint-auth composer install --ignore-platform-reqs \
+&&  sleep 5 && docker exec tours composer install --ignore-platform-reqs \
 && echo -e "\n${PURPLE} Generating application keys \n ${NC}" \
 &&  docker exec flavors php artisan key:generate \
 && echo -e "\n${PURPLE} Running database migrations \n ${NC}" \
@@ -12,5 +12,6 @@ docker compose up --build -d \
 &&  docker exec flavors php artisan db:seed \
 && echo -e "\n${PURPLE} Obtaining the necessary permissions for the sessions and the local storage ... \n ${NC}" \
 &&  sudo chmod -R 777 storage/framework/* \
+&&  sudo chmod -R 777 storage/* \
 &&  sudo chmod -R 777 storage/app/public/images/* \
 && echo -e "\n${GREEN}  Everything done \n ${NC}" \

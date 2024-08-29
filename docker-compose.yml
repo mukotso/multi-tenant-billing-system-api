@@ -3,36 +3,36 @@ services:
 
   mysql:
     image: mysql:8
-    container_name: fingerprint-auth-mysql
+    container_name: tours-mysql
     working_dir: /application
     volumes:
       - .:/application
       - ./data/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mysql
-      - MYSQL_DATABASE=fingerprint-auth
+      - MYSQL_DATABASE=tours
       - MYSQL_USER=Test
       - MYSQL_PASSWORD=Test1234
     ports:
-      - "8020:3306"
+      - "8028:3306"
 
   adminer:
     image: adminer
-    container_name: fingerprint-auth-adminer
+    container_name: tours-adminer
     ports:
-      - "8091:8080"
+      - "8098:8080"
     networks:
       - default
 
   webserver:
     build: docker/nginx
-    container_name: fingeprint-auth-webserver
+    container_name: tours-webserver
     working_dir: /application
     volumes:
       - .:/application
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "8021:80"
+      - "8029:80"
     networks:
       - default
 
@@ -40,7 +40,7 @@ services:
     build:
       context: ./docker/php-fpm
       dockerfile: Dockerfile
-    container_name: fingerprint-auth
+    container_name: tours
     working_dir: /application
     volumes:
       - .:/application
@@ -48,9 +48,9 @@ services:
 
   mailhog:
     image: mailhog/mailhog
-    container_name: fingerprint-auth-mailhog
+    container_name: tours-mailhog
     ports:
-      - "8024:8025"
+      - "8030:8025"
       - "1013:1025"
 
 networks:
