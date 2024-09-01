@@ -3,36 +3,36 @@ services:
 
   mysql:
     image: mysql:8
-    container_name: tours-mysql
+    container_name: multi-tenant-billing-system-mysql
     working_dir: /application
     volumes:
       - .:/application
       - ./data/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mysql
-      - MYSQL_DATABASE=tours
+      - MYSQL_DATABASE=multi-tenant-billing-system
       - MYSQL_USER=Test
       - MYSQL_PASSWORD=Test1234
     ports:
-      - "8028:3306"
+      - "8006:3306"
 
   adminer:
     image: adminer
-    container_name: tours-adminer
+    container_name: multi-tenant-billing-system-adminer
     ports:
-      - "8098:8080"
+      - "8007:8080"
     networks:
       - default
 
   webserver:
     build: docker/nginx
-    container_name: tours-webserver
+    container_name: multi-tenant-billing-system-webserver
     working_dir: /application
     volumes:
       - .:/application
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "8029:80"
+      - "8001:80"
     networks:
       - default
 
@@ -40,7 +40,7 @@ services:
     build:
       context: ./docker/php-fpm
       dockerfile: Dockerfile
-    container_name: tours
+    container_name: multi-tenant-billing-system
     working_dir: /application
     volumes:
       - .:/application
@@ -48,9 +48,9 @@ services:
 
   mailhog:
     image: mailhog/mailhog
-    container_name: tours-mailhog
+    container_name: multi-tenant-billing-system-mailhog
     ports:
-      - "8030:8025"
+      - "8035:8025"
       - "1013:1025"
 
 networks:

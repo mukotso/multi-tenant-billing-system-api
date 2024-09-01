@@ -3,15 +3,15 @@
 #Build docker image
 docker compose up --build -d \
 && echo -e "\n${PURPLE} Please wait while installing composer Packages ... \n ${NC}" \
-&&  sleep 5 && docker exec tours composer install --ignore-platform-reqs \
+&&  sleep 5 && docker exec multi-tenant-billing-system composer install --ignore-platform-reqs \
 && echo -e "\n${PURPLE} Generating application keys \n ${NC}" \
-&&  docker exec flavors php artisan key:generate \
+&&  docker exec multi-tenant-billing-system php artisan key:generate \
 && echo -e "\n${PURPLE} Running database migrations \n ${NC}" \
-&&  docker exec flavors php artisan migrate \
+&&  docker exec multi-tenant-billing-system php artisan migrate \
 && echo -e "\n${PURPLE} seed data to database \n ${NC}" \
-&&  docker exec tours php artisan db:seed 
+&&  docker exec multi-tenant-billing-system php artisan db:seed \
 && echo -e "\n${PURPLE} create jwt secrets \n ${NC}" \
-&&  docker exec tours php artisan jwt:secret
+&&  docker exec multi-tenant-billing-system php artisan jwt:secret \
 && echo -e "\n${PURPLE} Obtaining the necessary permissions for the sessions and the local storage ... \n ${NC}" \
 &&  sudo chmod -R 777 storage/framework/* \
 &&  sudo chmod -R 777 storage/* \
