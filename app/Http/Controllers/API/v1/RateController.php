@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 
 class RateController extends Controller
 {
-    public $business_id = 1;
+
 
     public function index(){
         return responseWithError(__('message.404'), 404);
@@ -76,7 +76,7 @@ class RateController extends Controller
             $inserdb['to'] = $validate['maximum'];
             $inserdb['cost'] = $validate['amount'];
             $inserdb['note'] = $validate['remark'];
-            $inserdb['business_id'] = $this->business_id;
+           
 
             $rate = Rate::create($inserdb);
 
@@ -173,7 +173,6 @@ class RateController extends Controller
                     $inserdb['name'] = $validate['rate'];
                     $inserdb['from'] = $validate['minimum'];
                     $inserdb['to'] = $validate['maximum'];
-                    $inserdb['business_id'] = $this->business_id;
                     $inserdb['cost'] = $validate['amount'];
                     $inserdb['note'] = $validate['remark'];
 
