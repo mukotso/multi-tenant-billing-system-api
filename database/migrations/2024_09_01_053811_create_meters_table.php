@@ -21,8 +21,7 @@ class CreateMetersTable extends Migration
             $table->string('timezone'); // Timezone of the meter
             $table->decimal('previous_reading', 10, 2); //previous reading
             $table->decimal('current_reading', 10, 2); // Current reading of the meter
-            $table->timestamps(); 
-            $table->unsignedBigInteger('user_id'); 
+            $table->timestamps();  
 
         });
     }
