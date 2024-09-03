@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('meter_types', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tenant_id')->constrained('tenants')->onDelete('cascade');
             $table->string('code');
             $table->string('format');
             $table->tinyInteger('status')->default(1);
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
+        
         MeterType::create(['format'=>'company format1','code'=>222,'status'=>1]);
         MeterType::create(['format'=>'company format2','code'=>333,'status'=>1]);
         MeterType::create(['format'=>'company format3','code'=>444,'status'=>1]);

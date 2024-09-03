@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tenant_id')->constrained('tenants')->onDelete('cascade');
             $table->string('name')->unique();
             $table->integer('to');
             $table->integer('from');
@@ -28,11 +29,11 @@ return new class extends Migration
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
 
-            $table->index('business_id');
+            $table->index('tanant_id');
         });
 
-        Rate::create(['name'=>'Normal Rate','to'=>300, 'from' => 100,  'cost' => 0.43, 'note' => 'For normal rate', 'status'=>1, 'business_id' =>1]);
-        Rate::create(['name'=>'Business Rate','to'=>100, 'from' => 0,  'cost' => 0.40, 'note' => 'For business rate', 'status'=>1, 'business_id' =>1]);
+        Rate::create(['name'=>'Normal Rate','to'=>300, 'from' => 100,  'cost' => 0.43, 'note' => 'For normal rate', 'status'=>1, 'tenant_id' =>1]);
+        Rate::create(['name'=>'Business Rate','to'=>100, 'from' => 0,  'cost' => 0.40, 'note' => 'For business rate', 'status'=>1, 'tenant_id' =>1]);
     }
 
     /**
