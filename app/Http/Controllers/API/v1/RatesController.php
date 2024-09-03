@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 
-class RateController extends Controller
+class RatesController extends Controller
 {
 
 
