@@ -139,48 +139,7 @@ class MeterTypesController extends Controller
         }
     }
 
-    // switch function
-    public function status(Request $request)
-    {
-        abort_if(Gate::denies('meter_type.status'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
-
-        try {
-            $validator = Validator::make($request->only('id','status'), [
-                'id' => 'required',
-                'status' => 'required|in:true,false',
-            ]);
-            if ($validator->fails()) {
-                return responseWithError(__('message.invalid'), 400);
-            } else {
-                $meterType = MeterType::where('id', $request->id)->first();
-                if (is_null($meterType)) {
-                    return responseWithError(
-                        __('message.record_not_found'),
-                        404
-                    );
-                } else {
-                    $inserdb = [];
-
-                    $inserdb['status'] = $request->status == 'true' ? 1 : 0;
-
-                    if ($meterType->update($inserdb)) {
-                        return responseWithSuccess(
-                            __('message.update_form'),
-                            200
-                        );
-                    } else {
-                        return responseWithError(
-                            __('message.not_success'),
-                            204
-                        );
-                    }
-
-                }
-            }
-        } catch (\Exception $error) {
-            return responseWithError(__('message.invalid'), 400);
-        }
-    }
+  
     // update function
     public function update(MeterTypeUpdateRequest $request)
     {

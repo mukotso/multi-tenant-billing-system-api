@@ -49,7 +49,7 @@ class UsersController extends Controller
         $currentPage = $request->input('page', '1');
 
         return UserResource::collection(
-            Customer::filters($filters)
+            Tenant::filters($filters)
                 ->search($searchColumns, $searchTerm)
                 ->sort($sortBy, $sortType)
                 ->customPaginate($perPage, $currentPage)
@@ -69,7 +69,7 @@ class UsersController extends Controller
                 $inserdb['email'] = $validate['email'];
                 $inserdb['password'] = Hash::make($validate['password']);
 
-                if ($user = Customer::create($inserdb)) {
+                if ($user = Tenant::create($inserdb)) {
                     $user->assignRole($request->input('roles'));
 
                 return responseWithSuccess(__('message.save_form'), 200);
@@ -91,7 +91,7 @@ class UsersController extends Controller
             if (!$validate) {
                 return responseWithError(__('message.invalid'), 404);
             } else {
-                $user_obj = Customer::where('id', $request->id)->first();
+                $user_obj = Tenant::where('id', $request->id)->first();
 
                 // Check if object has value
                 if (is_null($user_obj)) {
@@ -116,7 +116,7 @@ class UsersController extends Controller
         if (!$validate) {
             return responseWithError(__('message.invalid'), 400);
         } else {
-            $user = Customer::where('id', $request->id)->first();
+            $user = Tenant::where('id', $request->id)->first();
 
             if (is_null($user)) {
                 return responseWithError(__('message.record_not_found'), 404);
@@ -150,7 +150,7 @@ class UsersController extends Controller
             if ($validator->fails()) {
                 return responseWithError(__('message.invalid'), 404);
             }
-            $user = Customer::where('id', $request->id)->first();
+            $user = Tenant::where('id', $request->id)->first();
             if (is_null($user)) {
                 return responseWithError(__('message.record_not_found'), 404);
             } else {
@@ -162,46 +162,6 @@ class UsersController extends Controller
         }
     }
 
-
-    public function profile()
-    {
-
-        $username = Auth::user()->name;
-        $email = Auth::user()->email;
-        $branch = Auth::user()->branches->pluck('name');
-       // dd($branch);
-       $role= Auth::user()->roles->pluck('name');
-
-       $user_data=array();
-       $user_data['username']=$username;
-       $user_data['email']=$email;
-       $user_data['role']=$role;
-
-      return $user_data;
-    }
-
-    public function changePassword(Request $request)
-{
-        # Validation
-        $request->validate([
-            'old_password' => 'required',
-            'new_password' => 'required|confirmed',
-        ]);
-
-
-        #Match The Old Password
-        if(!Hash::check($request->old_password, auth()->user()->password)){
-            return response()->json("error", "Old Password Doesn't match!");
-        }
-
-
-        #Update the new Password
-        Customer::whereId(auth()->user()->id)->update([
-            'password' => Hash::make($request->new_password)
-        ]);
-
-        return response()->json("status", "Password changed successfully!");
-}
 }
 
 
