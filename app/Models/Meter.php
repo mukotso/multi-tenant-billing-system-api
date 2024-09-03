@@ -15,7 +15,7 @@ class Meter extends Model
    
     protected $fillable = [
         'name',
-        'type',
+        'meter_type_id',
         'timezone',
         'current_reading',
         'user_id',
@@ -26,7 +26,11 @@ class Meter extends Model
     return $this->belongsTo(User::class);
 }
 
-
+    
+    public function meterType()
+    {
+        return $this->belongsTo(MeterType::class,'meter_type_id');
+    }
     
 }
 

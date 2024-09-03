@@ -62,4 +62,14 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    /**
+     * Get the user's role.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function role()
+    {
+        return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
 }

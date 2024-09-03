@@ -16,6 +16,9 @@ class MeterType extends Model
     protected $fillable = ['code','format', 'status'];
 
     
-
+    public function meters()
+    {
+        return $this->hasMany(Meter::class);
+    }
 
 }

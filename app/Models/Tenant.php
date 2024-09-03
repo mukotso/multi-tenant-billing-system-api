@@ -22,6 +22,15 @@ class Tenant extends Authenticatable
         'customer_id',
     ];
 
+    /**
+     * Get the customer that owns the Tenant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
 
     
 }

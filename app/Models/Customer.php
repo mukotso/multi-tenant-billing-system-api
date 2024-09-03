@@ -62,4 +62,25 @@ class Customer extends Authenticatable implements JWTSubject
         return [];
     }
 
+      /**
+     * Get the user's role.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function role()
+    {
+        return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
+    
+    /**
+     * Get the tenants for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tenants()
+    {
+        return $this->hasMany(Tenant::class, 'customer_id', 'id');
+    }
+
 }
