@@ -25,3 +25,17 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 
 });
+
+  // user  routes
+  Route::prefix('users')->group(function () {
+    Route::post('/store', [UserController::class, 'store']);
+    Route::post('/edit', [UserController::class, 'edit']);
+    Route::post('/update', [UserController::class, 'update']);
+    Route::post('/delete', [UserController::class, 'destroy']);
+    Route::post('/get', [UserController::class, 'getUsers']);
+    
+
+
+    Route::post('/profile', [UserController::class, 'profile']);
+    Route::post('/change_password', [UserController::class, 'changePassword']);
+});
