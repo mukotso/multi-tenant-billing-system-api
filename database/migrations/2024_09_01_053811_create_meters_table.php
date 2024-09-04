@@ -16,12 +16,16 @@ class CreateMetersTable extends Migration
         Schema::create('meters', function (Blueprint $table) {
             $table->id(); 
             $table->string('name'); // Name or identifier for the meter
-            $table->enum('type', ['water', 'gas', 'electricity']); // Type of meter (e.g., water, gas, electricity)
+            $table->foreignId('tenant_id')->constrained('tenants')->onDelete('cascade');
+            $table->foreignId('meter_type_id')->constrained('meter_types')->onDelete('cascade');
             $table->string('timezone'); // Timezone of the meter
+            $table->decimal('previous_reading', 10, 2); //previous reading
             $table->decimal('current_reading', 10, 2); // Current reading of the meter
-            $table->timestamps(); 
-            $table->unsignedBigInteger('user_id'); 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->softDeletes();
+            $table->timestamps();  
+
         });
     }
 
@@ -34,4 +38,6 @@ class CreateMetersTable extends Migration
     {
         Schema::dropIfExists('meters');
     }
+
+    
 }

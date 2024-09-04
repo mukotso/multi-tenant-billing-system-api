@@ -14,8 +14,8 @@ class CommonEditRequest extends FormRequest
      */
     public function authorize()
     {
-        //return true;
-        return  Gate::allows('user.access');
+      return true;
+
     }
 
     /**
