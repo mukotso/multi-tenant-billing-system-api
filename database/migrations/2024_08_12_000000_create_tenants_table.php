@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->unsignedBigInteger('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->softDeletes();
             $table->timestamps();
             
         });

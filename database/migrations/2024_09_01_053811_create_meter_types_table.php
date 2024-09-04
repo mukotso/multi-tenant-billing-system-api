@@ -24,6 +24,9 @@ return new class extends Migration
             $table->string('updated_by')->nullable();
             $table->string('deleted_by')->nullable();
             $table->timestamp('deleted_at')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
         

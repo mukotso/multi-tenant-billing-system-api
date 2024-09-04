@@ -54,6 +54,9 @@ return new class extends Migration
               $table->unique(['bill_month', 'bill_year', 'user_id']);
               $table->index('transaction_date');
               $table->index('status');
+              $table->unsignedBigInteger('created_by')->nullable()->constrained('users')->nullOnDelete();
+              $table->unsignedBigInteger('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->softDeletes();
 
       
         });

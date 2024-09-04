@@ -34,7 +34,6 @@ class LoginRequest extends FormRequest
                 'required',
                 'min:10',
                 'max:50',
-                'unique:users,email',
             ],
             'password' =>['bail', 'required', 'min:8', 'max:50'],
         ];

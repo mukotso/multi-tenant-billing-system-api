@@ -19,7 +19,9 @@ return new class extends Migration
             $table->decimal('reading_value', 8, 2);
             $table->date('reading_date');
             $table->timestamps();
-
+            $table->unsignedBigInteger('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->softDeletes();
             $table->index(['meter_id', 'reading_date']);
         });
     }
