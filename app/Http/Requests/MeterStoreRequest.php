@@ -16,7 +16,7 @@ class MeterStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('meter.access');
+        return true;
 
     }
 

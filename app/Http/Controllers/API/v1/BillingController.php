@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Enums\BillingStatus;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\v1\Controller;
 use App\Http\Requests\BillingUpdateRequest;
 use App\Http\Requests\UsageRequest;
 use App\Http\Resources\BillingAndHouseResource;

@@ -3,9 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 
-class CommonEditRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +27,16 @@ class CommonEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required'
+            'name' => 'required|min:5|max:20',
+            'email' => [
+                'bail',
+                'required',
+                'min:10',
+                'max:50',
+                'unique:users,email',
+            ],
+            'password' =>['bail', 'required', 'min:8', 'max:50'],
+            'role_id' => ['bail', 'required'],
         ];
     }
 }

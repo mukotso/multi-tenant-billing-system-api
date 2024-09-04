@@ -17,7 +17,7 @@ class MeterTypeUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::allows('meter_type.update');
+        return true;
     }
 
     /**

@@ -27,11 +27,7 @@ return new class extends Migration
             $table->timestamps();
         });
         
-        MeterType::create(['format'=>'company format1','code'=>222,'status'=>1]);
-        MeterType::create(['format'=>'company format2','code'=>333,'status'=>1]);
-        MeterType::create(['format'=>'company format3','code'=>444,'status'=>1]);
-        MeterType::create(['format'=>'company format4','code'=>555,'status'=>1]);
-        MeterType::create(['format'=>'company format5','code'=>666,'status'=>1]);
+       
 
     }
 

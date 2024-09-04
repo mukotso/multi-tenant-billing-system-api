@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
-class UsersController extends Controller
+class CustomersController extends Controller
 {
 
     //load as api
