@@ -35,48 +35,48 @@ Route::controller(AuthController::class)->group(function () {
 
 });
 
-// user  routes
-Route::resource('users', UsersController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
-Route::post('users/profile', [UsersController::class, 'profile']);
-Route::post('users/change_password', [UsersController::class, 'changePassword']);
+Route::middleware('auth:api')->prefix('v1')->group(function () {
+    // user  routes
+    Route::resource('users', UsersController::class)->only([
+        'index', 'store', 'show', 'update', 'destroy'
+    ]);
+    Route::post('users/profile', [UsersController::class, 'profile']);
+    Route::post('users/change_password', [UsersController::class, 'changePassword']);
 
 
-//meter  routes
-Route::resource('meters', MetersController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+    //meter  routes
+    Route::resource('meters', MetersController::class)->only([
+        'index', 'store', 'show', 'update', 'destroy'
+    ]);
 
-//customers  routes
-Route::resource('customers', CustomersController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+    //customers  routes
+    Route::resource('customers', CustomersController::class)->only([
+        'index', 'store', 'show', 'update', 'destroy'
+    ]);
 
-//rates  routes
-Route::resource('rates', RatesController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+    //rates  routes
+    Route::resource('rates', RatesController::class)->only([
+        'index', 'store', 'show', 'update', 'destroy'
+    ]);
 
+    //tenants  routes
+    Route::resource('tenants', TenantsController::class)->only([
+        'index', 'store', 'show', 'update', 'destroy'
+    ]);
 
-//tenants  routes
-Route::resource('tenants', TenantsController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+    //meter type  routes
+    Route::resource('meter_types', MeterTypesController::class)->only([
+        'index', 'store', 'show', 'update', 'destroy'
+    ]);
 
-//meter type  routes
-Route::resource('meter_types', MeterTypesController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+    //billings  routes ( consumption )
+    Route::resource('billings', BillingsController::class)->only([
+        'index',
+    ]);
 
-
-//billings  routes ( consumption )
-Route::resource('billings', BillingsController::class)->only([
-    'index',
-]);
-
-//consumptions  routes ( consumption )
-Route::resource('consumptions', ConsumptionsController::class)->only([
-    'index',
-]);
+    //consumptions  routes ( consumption )
+    Route::resource('consumptions', ConsumptionsController::class)->only([
+        'index',
+    ]);
+});
 
