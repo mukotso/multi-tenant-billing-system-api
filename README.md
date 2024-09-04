@@ -1,4 +1,4 @@
-<h1 align="center">MULTI-TENANTS UTILITY BILLING SYSTEM API </h1>
+<h1 align="center">MULTI-TENANT UTILITY BILLING SYSTEM API </h1>
 
 ## Getting Started
 Clone this project to your local machine and open it in your favourite IDE
@@ -20,7 +20,7 @@ Give execution permission to this scripts by running
 chmod +x install.sh 
 chmod +x uninstall.sh 
 ```
-Now run the install script to create  containers, apache configuration,MySQL database container , it will compose this containers and start them in detached mode
+Now run the install script to create  containers, Ngnix configuration,MySQL database container , it will compose this containers and start them in detached mode
 
 ```bash
  ./install.sh 
