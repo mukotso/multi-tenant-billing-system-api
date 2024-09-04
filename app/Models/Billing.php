@@ -17,6 +17,19 @@ class Billing extends Model
     //use ZoneAccessTrait;
     use SoftDeletes;
 
+    public static function boot(): void
+    {
+        parent::boot();
+        static::creating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+        static::updating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+    }
+
     protected $fillable = [
         'previous_r',
         'current_r',

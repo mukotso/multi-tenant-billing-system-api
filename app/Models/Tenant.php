@@ -22,6 +22,19 @@ class Tenant extends Authenticatable
         'customer_id',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+        static::creating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+        static::updating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+    }
+
     /**
      * Get the customer that owns the Tenant
      *

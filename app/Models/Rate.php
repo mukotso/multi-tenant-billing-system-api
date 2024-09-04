@@ -28,6 +28,19 @@ class Rate extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+
+     public static function boot(): void
+     {
+         parent::boot();
+         static::creating(function($query) {
+             $query->created_by = auth()->user()->id ?? null;
+         });
+ 
+         static::updating(function($query) {
+             $query->created_by = auth()->user()->id ?? null;
+         });
+ 
+     }
   
 
     public function filterRate($id = null, $filter_from, $filter_to)

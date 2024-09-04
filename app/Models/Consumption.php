@@ -15,6 +15,19 @@ class Consumption extends Model
 
     protected $fillable = ['meter_id','tenant_id','consumption_period','total_consumption'];
 
+
+    public static function boot(): void
+    {
+        parent::boot();
+        static::creating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+        static::updating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+    }
     
    
 

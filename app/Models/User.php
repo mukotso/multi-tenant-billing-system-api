@@ -24,6 +24,19 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+        static::creating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+        static::updating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

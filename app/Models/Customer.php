@@ -42,6 +42,19 @@ class Customer extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+        static::creating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+        static::updating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+    }
+
      /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

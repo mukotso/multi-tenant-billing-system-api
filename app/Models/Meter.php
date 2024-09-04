@@ -22,6 +22,19 @@ class Meter extends Model
         'user_id',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+        static::creating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+        static::updating(function($query) {
+            $query->created_by = auth()->user()->id ?? null;
+        });
+
+    }
+
     public function user()
 {
     return $this->belongsTo(User::class);
