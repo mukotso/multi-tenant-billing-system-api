@@ -3,47 +3,30 @@
 namespace App\Models;
 
 
+use App\Traits\PaginationsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\PaginationsTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Billing extends Model
+class BillingPayment extends Model
 {
     use HasFactory;
-    use PaginationsTrait;
     use SoftDeletes;
-
+    use PaginationsTrait;
 
 
     protected $fillable = [
-        'previous_r',
         'tenant_id',
-        'meter_id',
-        'current_r',
-        'usage',
-        'amount_paid',
-        'subtotal',
-        'rate',
-        'discount_percent',
-        'tax_amount',
-        'grand_total',
-        'balance',
-        'old_balance',
+        'billing_id',
+        'amount',
+        'payment_method_id',
+        'date',
         'status',
-        'transaction_date',
-        'discount_type',
-        'notes',
+        'note',
+        'payment_ref',
         'created_by',
         'updated_by',
         'deleted_by',
-    ];
-
-
-    protected $dates = [
-        'transaction_date',
-        'refund_date',
-        'deleted_at',
     ];
 
     public static function boot(): void
@@ -64,30 +47,29 @@ class Billing extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tenant(): BelongsTo
+    public function tenant()
     {
         return $this->belongsTo(Tenant::class);
     }
 
     /**
-     * Get the meter that owns the billing
+     * Get the billing that owns the billing payment
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function meter(): BelongsTo
+    public function billings()
     {
-        return $this->belongsTo(Meter::class);
+        return $this->belongsTo(Billing::class);
     }
-
-    /**
-     * Get all of the billing payments for the billing
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function billingPayments(): HasMany
-    {
-        return $this->hasMany(BillingPayment::class);
-    }
-
     
+    /**
+     * Get the payment method associated with the billing payment
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
 }

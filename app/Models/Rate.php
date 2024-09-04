@@ -15,6 +15,8 @@ class Rate extends Model
     protected $fillable = [
         'note',
         'name',
+        'tenant_id',
+        'meter_type_id',
         'to',
         'from',
         'cost',
@@ -23,11 +25,8 @@ class Rate extends Model
         'updated',
     ];
 
-    /**
-     * Get the business that owns the Rate
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+ 
+
 
      public static function boot(): void
      {
@@ -56,6 +55,17 @@ class Rate extends Model
             ->first();
 
         return $rates;
+    }
+
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
+    public function meter_type()
+    {
+        return $this->belongsTo(MeterType::class);
     }
 
     public function getCost($usage)

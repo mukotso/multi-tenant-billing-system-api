@@ -17,16 +17,13 @@ return new class extends Migration
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tenant_id')->constrained('tenants')->onDelete('cascade');
+            $table->foreignId('meter_type_id')->constrained('meter_types')->onDelete('cascade');
             $table->string('name')->unique();
             $table->integer('to');
             $table->integer('from');
             $table->double('cost');
             $table->text('note');
             $table->tinyInteger('status')->default(1);
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
-            $table->string('deleted_by')->nullable();
-            $table->timestamp('deleted_at')->nullable();
             $table->unsignedBigInteger('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->unsignedBigInteger('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->softDeletes();

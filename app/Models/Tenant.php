@@ -46,4 +46,35 @@ class Tenant extends Authenticatable
     }
 
     
+    /**
+     * Get the payment methods for the Tenant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function paymentMethods()
+    {
+        return $this->hasMany(PaymentMethod::class, 'tenant_id', 'id');
+    }
+
+    
+    /**
+     * Get the billings for the Tenant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function billings()
+    {
+        return $this->hasMany(Billing::class, 'tenant_id', 'id');
+    }
+
+    
+    /**
+     * Get the billing payments for the Tenant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function billingPayments()
+    {
+        return $this->hasMany(BillingPayment::class, 'tenant_id', 'id');
+    }
 }

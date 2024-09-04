@@ -6,6 +6,13 @@
       0 => 'AndreasElia\\PostmanGenerator\\PostmanGeneratorServiceProvider',
     ),
   ),
+  'beyondcode/laravel-er-diagram-generator' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'BeyondCode\\ErdGenerator\\ErdGeneratorServiceProvider',
+    ),
+  ),
   'laravel/sail' => 
   array (
     'providers' => 
