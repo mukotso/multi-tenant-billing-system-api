@@ -18,17 +18,10 @@ use Illuminate\Http\Response as HttpResponse;
 
 class MeterTypesController extends Controller
 {
-    public $business_id = 1;
-    public function index(){
-        return responseWithError(__('message.404'), 404);
-    }
-
-
-    // get get meter type function
-    public function get(Request $request)
-    {
-
+   
   
+    public function index(Request $request)
+    {
 
         $sortBy_columns = [
             'id' => 'id',
@@ -97,9 +90,9 @@ class MeterTypesController extends Controller
             } else {
                 $inserdb = [];
 
-                $inserdb['code'] = $validate['short'];
+                $inserdb['code'] = $validate['code'];
                 $inserdb['format'] = $validate['format'];
-                $inserdb['business_id'] = $this->business_id;
+                $inserdb['tenant_id'] = $validate['tenant_id'];;
 
                 if (MeterType::create($inserdb)) {
                     return responseWithSuccess(__('message.save_form'), 200);

@@ -13,7 +13,7 @@ class MeterType extends Model
     use PaginationsTrait;
     use SoftDeletes;
 
-    protected $fillable = ['code','format', 'status'];
+    protected $fillable = ['code','format', 'status','tenant_id'];
 
 
     public static function boot(): void

@@ -28,13 +28,13 @@ class MeterTypeStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'short' => [
+            'code' => [
                 'bail',
-                'required','min:3','max:5',
+                'required',
                 new UniqueConditions(MeterType::class, 'code')
-
             ],
-            'format' => 'required|min:3|max:10',
+            'format' => 'required',
+            'tenant_id' => ['bail', 'required', 'exists:tenants,id'],
         ];
     }
 }

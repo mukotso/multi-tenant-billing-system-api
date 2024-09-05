@@ -25,8 +25,6 @@ class RatesController extends Controller
     public function get(Request $request)
      {
       
-
-
          $sortBy_columns = [
              'nm'=>'name',
              'to' => 'to',
@@ -59,7 +57,7 @@ class RatesController extends Controller
 
      }
 
-     // end get rate function
+   
 
     // store function
     public function store(RateStoreRequest $request)

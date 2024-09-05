@@ -58,33 +58,7 @@ class metersController extends Controller
         );
     }
 
-    // end get meter type function
 
-    public function load(Request $request){
-        try{
-
-
-            $searchTerm = $request->input('search');
-            $searchColumns = ['format'];
-
-           $data= Meter::search($searchColumns, $searchTerm)->get(['id as value','format as label']);
-           
-
-           if($data->isEmpty()){
-
-           return responseWithError(
-                   __('message.record_not_found'),
-                   404
-               );
-       }
-
-           return response()->json($data);
-
-    }
-    catch (\Exception $e) {
-        return responseWithError(__('message.invalid'), 400);
-    }
-    }
 
     // store function
     public function store(meterStoreRequest $request)
