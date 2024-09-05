@@ -27,7 +27,7 @@ class TenantsController extends Controller
     {
 
 
-        abort_if(Gate::denies('user_access'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
+     
         $sortBy_columns = [
             'nm' => 'name',
             'em' => 'email',
@@ -142,7 +142,7 @@ class TenantsController extends Controller
     // destory function
     public function destroy(Request $request)
     {
-        abort_if(Gate::denies('user_delete'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
+        
         try {
             $validator = Validator::make($request->only('id'), [
                 'id' => 'required|integer',

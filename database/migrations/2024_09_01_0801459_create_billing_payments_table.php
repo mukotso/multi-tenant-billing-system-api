@@ -16,12 +16,12 @@ return new class extends Migration
     {
         Schema::create('billing_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id')->constrained('businesses')->onDelete('cascade');
+            $table->foreignId('tenant_id')->constrained('tenants')->onDelete('cascade');
             $table->foreignId('billing_id')->constrained('billings')->onDelete('cascade');
             $table->decimal('amount', 8, 2);
             $table->foreignId('payment_method_id')->constrained('payment_methods')->onDelete('cascade');
             $table->date('date');
-            $table->tinyInteger('status')->default(PaymentStatus::PAID);//
+            $table->tinyInteger('status')->default(PaymentStatus::PAID);
             $table->string('notes', 255)->nullable();
             $table->string('payment_ref')->nullable();
 

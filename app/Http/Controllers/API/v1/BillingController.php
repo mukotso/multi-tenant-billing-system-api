@@ -214,7 +214,7 @@ class BillingController extends Controller
     //edit function
     public function edit(Request $request)
     {
-        abort_if(Gate::denies('billing.edit'),  Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         try {
             $validator = Validator::make($request->only('id'), [
                 'id' => 'required',
@@ -240,7 +240,7 @@ class BillingController extends Controller
 
     public function status(Request $request)
     {
-        abort_if(Gate::denies('billing.status'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
+       
         try {
             $validator = Validator::make($request->only('id','status'), [
                 'id' => 'required',

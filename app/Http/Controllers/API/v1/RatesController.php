@@ -24,7 +24,7 @@ class RatesController extends Controller
     // get rate function
     public function get(Request $request)
      {
-       abort_if(Gate::denies('rate.access'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
+      
 
 
          $sortBy_columns = [
@@ -93,7 +93,7 @@ class RatesController extends Controller
     // edit function
     public function edit(Request $request)
     {
-    abort_if(Gate::denies('rate.edit'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
+    
 
         try {
             $validator = Validator::make($request->only('id'), [
@@ -161,7 +161,7 @@ class RatesController extends Controller
     public function destroy(Request $request)
 
     {
-      abort_if(Gate::denies('rate.delete'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
+     
 
         try {
             $validator = Validator::make($request->only('id'), [

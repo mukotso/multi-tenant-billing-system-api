@@ -22,7 +22,7 @@ class UserResource extends JsonResource
         $user['id'] = $this->id;
         $user['name'] = $this->name;
         $user['email'] = $this->email;
-        $user['roles'] = [RoleUserResource::collection($this->roles)]; 
+        // $user['roles'] = [RoleUserResource::collection($this->roles)]; 
 
         return $user;
 

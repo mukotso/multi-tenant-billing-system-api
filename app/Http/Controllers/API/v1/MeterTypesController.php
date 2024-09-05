@@ -28,7 +28,7 @@ class MeterTypesController extends Controller
     public function get(Request $request)
     {
 
-     abort_if(Gate::denies('meter_type.access'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
+  
 
         $sortBy_columns = [
             'id' => 'id',
@@ -114,7 +114,7 @@ class MeterTypesController extends Controller
     // edit function
     public function edit(Request $request)
     {
-        abort_if(Gate::denies('meter_type.edit'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
+       
 
         try {
             $validator = Validator::make($request->only('id'), [
@@ -179,7 +179,7 @@ class MeterTypesController extends Controller
     // destroy function
     public function destroy(Request $request)
     {
-       abort_if(Gate::denies('meter_type.delete'),  Response::HTTP_FORBIDDEN,'403 Forbidden');
+
 
         try {
             $validator = Validator::make($request->only('id'), [
