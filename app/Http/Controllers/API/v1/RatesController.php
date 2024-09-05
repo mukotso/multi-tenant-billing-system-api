@@ -17,12 +17,8 @@ class RatesController extends Controller
 {
 
 
-    public function index(){
-        return responseWithError(__('message.404'), 404);
-    }
-
     // get rate function
-    public function get(Request $request)
+    public function index(Request $request)
      {
       
          $sortBy_columns = [
@@ -74,7 +70,8 @@ class RatesController extends Controller
             $inserdb['to'] = $validate['maximum'];
             $inserdb['cost'] = $validate['amount'];
             $inserdb['note'] = $validate['remark'];
-           
+            $inserdb['tenant_id'] = $validate['tenant_id'];
+            $inserdb['meter_type_id'] = $validate['meter_type_id'];
 
             $rate = Rate::create($inserdb);
 
