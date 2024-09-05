@@ -56,4 +56,4 @@ class UpdateConsumptionData extends Command
             return $rate->cost;
            
     }
-}s
+}
