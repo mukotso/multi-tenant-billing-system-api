@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\MeterType;
-use App\Rules\UniqueConditions;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 
-class MeterStoreRequest extends FormRequest
+class TenantStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,7 +15,8 @@ class MeterStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+
+      return true;
 
     }
 
@@ -28,13 +28,17 @@ class MeterStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'name' => 'required|min:5|max:20',
+            'email' => [
                 'bail',
-                'required'
-
+                'required',
+                'min:10',
+                'max:50',
+                'unique:tenants,email',
             ],
-            'tenant_id' => ['bail', 'required', 'exists:tenants,id'],
-            'meter_type_id' => ['bail', 'required', 'exists:meter_types,id'],
+            'password' =>['bail', 'required', 'min:8', 'max:50'],
+            'role_id' => ['bail', 'required', 'exists:roles,id'],
+            'customer_id' => ['bail', 'required', 'exists:customers,id'],
         ];
     }
 }

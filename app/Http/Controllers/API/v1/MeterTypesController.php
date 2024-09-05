@@ -18,17 +18,10 @@ use Illuminate\Http\Response as HttpResponse;
 
 class MeterTypesController extends Controller
 {
-    public $business_id = 1;
-    public function index(){
-        return responseWithError(__('message.404'), 404);
-    }
-
-
-    // get get meter type function
-    public function get(Request $request)
+   
+  
+    public function index(Request $request)
     {
-
-     abort_if(Gate::denies('meter_type.access'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
 
         $sortBy_columns = [
             'id' => 'id',
@@ -97,9 +90,9 @@ class MeterTypesController extends Controller
             } else {
                 $inserdb = [];
 
-                $inserdb['code'] = $validate['short'];
+                $inserdb['code'] = $validate['code'];
                 $inserdb['format'] = $validate['format'];
-                $inserdb['business_id'] = $this->business_id;
+                $inserdb['tenant_id'] = $validate['tenant_id'];;
 
                 if (MeterType::create($inserdb)) {
                     return responseWithSuccess(__('message.save_form'), 200);
@@ -114,7 +107,7 @@ class MeterTypesController extends Controller
     // edit function
     public function edit(Request $request)
     {
-        abort_if(Gate::denies('meter_type.edit'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
+       
 
         try {
             $validator = Validator::make($request->only('id'), [
@@ -179,7 +172,7 @@ class MeterTypesController extends Controller
     // destroy function
     public function destroy(Request $request)
     {
-       abort_if(Gate::denies('meter_type.delete'),  Response::HTTP_FORBIDDEN,'403 Forbidden');
+
 
         try {
             $validator = Validator::make($request->only('id'), [

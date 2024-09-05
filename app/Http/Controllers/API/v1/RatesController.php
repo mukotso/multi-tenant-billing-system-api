@@ -17,16 +17,10 @@ class RatesController extends Controller
 {
 
 
-    public function index(){
-        return responseWithError(__('message.404'), 404);
-    }
-
     // get rate function
-    public function get(Request $request)
+    public function index(Request $request)
      {
-       abort_if(Gate::denies('rate.access'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
-
-
+      
          $sortBy_columns = [
              'nm'=>'name',
              'to' => 'to',
@@ -59,7 +53,7 @@ class RatesController extends Controller
 
      }
 
-     // end get rate function
+   
 
     // store function
     public function store(RateStoreRequest $request)
@@ -76,7 +70,8 @@ class RatesController extends Controller
             $inserdb['to'] = $validate['maximum'];
             $inserdb['cost'] = $validate['amount'];
             $inserdb['note'] = $validate['remark'];
-           
+            $inserdb['tenant_id'] = $validate['tenant_id'];
+            $inserdb['meter_type_id'] = $validate['meter_type_id'];
 
             $rate = Rate::create($inserdb);
 
@@ -93,7 +88,7 @@ class RatesController extends Controller
     // edit function
     public function edit(Request $request)
     {
-    abort_if(Gate::denies('rate.edit'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
+    
 
         try {
             $validator = Validator::make($request->only('id'), [
@@ -161,7 +156,7 @@ class RatesController extends Controller
     public function destroy(Request $request)
 
     {
-      abort_if(Gate::denies('rate.delete'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
+     
 
         try {
             $validator = Validator::make($request->only('id'), [

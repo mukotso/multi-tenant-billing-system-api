@@ -27,14 +27,16 @@ class RateStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'rate'=>['bail','required','min:3','max:50',new UniqueConditions(Rate::class, 'name')],
-            'remark' => 'required|max:50|min:3',
+            'rate'=>['bail','required'],
+            'remark' => 'required',
 
             'minimum' => ['required', 'integer', 'lte:maximum', 'between:0,9999999999', new UniqueRateRules(null, 'from', $this->minimum, $this->maximum)],
 
             'maximum' => ['required', 'integer', 'gte:minimum', 'between:0,9999999999', new UniqueRateRules(null, 'to', $this->minimum, $this->maximum)],
 
             'amount' => 'required|numeric|between:0,99999999999',
+            'tenant_id' => ['bail', 'required', 'exists:tenants,id'],
+            'meter_type_id' => ['bail', 'required', 'exists:meter_types,id'],
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\API\v1\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\TenantStoreRequest;
 use App\Http\Requests\CommonEditRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\user\UserEditResource;
@@ -17,17 +17,14 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
-
+use App\Models\Tenant;
 class TenantsController extends Controller
 {
 
     //load as api
-    public function getUsers(Request $request)
+    public function index(Request $request)
 
     {
-
-
-        abort_if(Gate::denies('user_access'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
         $sortBy_columns = [
             'nm' => 'name',
             'em' => 'email',
@@ -56,7 +53,7 @@ class TenantsController extends Controller
         );
     }
 
-    public function store(UserStoreRequest $request)
+    public function store(TenantStoreRequest $request)
     {
 
        // try {
@@ -67,10 +64,11 @@ class TenantsController extends Controller
                 $inserdb = [];
                 $inserdb['name'] = $validate['name'];
                 $inserdb['email'] = $validate['email'];
+                $inserdb['customer_id'] = $validate['customer_id'];
                 $inserdb['password'] = Hash::make($validate['password']);
 
                 if ($user = Tenant::create($inserdb)) {
-                    $user->assignRole($request->input('roles'));
+                    
 
                 return responseWithSuccess(__('message.save_form'), 200);
             } else {
@@ -142,7 +140,7 @@ class TenantsController extends Controller
     // destory function
     public function destroy(Request $request)
     {
-        abort_if(Gate::denies('user_delete'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
+        
         try {
             $validator = Validator::make($request->only('id'), [
                 'id' => 'required|integer',

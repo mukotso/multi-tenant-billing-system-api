@@ -9,7 +9,7 @@ use App\Http\Requests\meterStoreRequest;
 use App\Http\Requests\meterUpdateRequest;
 use App\Http\Resources\commanResource;
 use App\Http\Resources\meterResource;
-use App\Models\meter;
+use App\Models\Meter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -19,16 +19,11 @@ use Illuminate\Http\Response as HttpResponse;
 class metersController extends Controller
 {
    
-    public function index(){
-        return responseWithError(__('message.404'), 404);
-    }
 
 
     // get get meter type function
-    public function get(Request $request)
+    public function index(Request $request)
     {
-
-     abort_if(Gate::denies('meter_type.access'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
 
         $sortBy_columns = [
             'id' => 'id',
@@ -58,33 +53,7 @@ class metersController extends Controller
         );
     }
 
-    // end get meter type function
 
-    public function load(Request $request){
-        try{
-
-
-            $searchTerm = $request->input('search');
-            $searchColumns = ['format'];
-
-           $data= Meter::search($searchColumns, $searchTerm)->get(['id as value','format as label']);
-           
-
-           if($data->isEmpty()){
-
-           return responseWithError(
-                   __('message.record_not_found'),
-                   404
-               );
-       }
-
-           return response()->json($data);
-
-    }
-    catch (\Exception $e) {
-        return responseWithError(__('message.invalid'), 400);
-    }
-    }
 
     // store function
     public function store(meterStoreRequest $request)
@@ -97,9 +66,12 @@ class metersController extends Controller
             } else {
                 $inserdb = [];
 
-                $inserdb['code'] = $validate['short'];
-                $inserdb['format'] = $validate['format'];
-            
+                $inserdb['name'] = $validate['name'];
+                $inserdb['tenant_id'] = $validate['tenant_id'];
+                $inserdb['meter_type_id'] = $validate['meter_type_id'];
+                $inserdb['timezone'] = $validate['timezone'] ?? auth()->user()->timezone ?? 'Asia/Jakarta';
+                $inserdb['previous_reading'] = 0;
+                $inserdb['current_reading'] = 0;
 
                 if (Meter::create($inserdb)) {
                     return responseWithSuccess(__('message.save_form'), 200);
@@ -114,7 +86,7 @@ class metersController extends Controller
     // edit function
     public function edit(Request $request)
     {
-        abort_if(Gate::denies('meter_type.edit'), HttpResponse::HTTP_FORBIDDEN, '403 Forbidden');
+       
 
         try {
             $validator = Validator::make($request->only('id'), [
@@ -139,68 +111,5 @@ class metersController extends Controller
         }
     }
 
-  
-    // update function
-    public function update(meterUpdateRequest $request)
-    {
-        try {
-            $validator = $request->validated();
-            // dd($validator);
-            if (!$validator) {
-                return responseWithError(__('message.invalid'), 400);
-            } else {
-                $meter = Meter::where('id', $request->id)->first();
-                if (is_null($meter)) {
-                    return responseWithError(
-                        __('message.record_not_found'),
-                        404
-                    );
-                } else {
-                    $inserdb = [];
-                    $inserdb['code'] = $validator['short'];
-                    $inserdb['format'] = $validator['format'];
-                    if ($meter->update($inserdb)) {
-                        return responseWithSuccess(
-                            __('message.update_form'),
-                            200
-                        );
-                    } else {
-                        return responseWithError(
-                            __('message.not_success'),
-                            204
-                        );
-                    }
-                }
-            }
-        } catch (\Exception $e) {
-            return responseWithError(__('message.invalid'), 400);
-        }
-    }
-    // destroy function
-    public function destroy(Request $request)
-    {
-       abort_if(Gate::denies('meter_type.delete'),  Response::HTTP_FORBIDDEN,'403 Forbidden');
 
-        try {
-            $validator = Validator::make($request->only('id'), [
-                'id' => 'required',
-            ]);
-            if ($validator->fails()) {
-                return responseWithError(__('message.invalid'), 400);
-            } else {
-                $meter = Meter::where('id', $request->id)->first();
-                if (is_null($meter)) {
-                    return responseWithError(
-                        __('message.record_not_found'),
-                        404
-                    );
-                }
-
-                $meter->delete();
-                return responseWithSuccess(__('message.delete_form'), 200);
-            }
-        } catch (\Exception $error) {
-            return responseWithError(__('message.invalid'), 400);
-        }
-    }
 }

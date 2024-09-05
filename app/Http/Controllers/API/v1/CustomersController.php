@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\API\v1\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\CustomerStoreRequest;
 use App\Http\Requests\CommonEditRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\user\UserEditResource;
@@ -17,17 +17,15 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
-
+use App\Services\CustomerService;
+use App\Models\Customer;
 class CustomersController extends Controller
 {
 
     //load as api
-    public function getUsers(Request $request)
+    public function index(Request $request)
 
     {
-
-
-        abort_if(Gate::denies('user_access'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
         $sortBy_columns = [
             'nm' => 'name',
             'em' => 'email',
@@ -56,10 +54,10 @@ class CustomersController extends Controller
         );
     }
 
-    public function store(UserStoreRequest $request)
+    public function store(CustomerStoreRequest $request)
     {
 
-       // try {
+        
             $validate = $request->validated();
             if (!$validate) {
                 return responseWithError(__('message.invalid'), 404);
@@ -67,18 +65,14 @@ class CustomersController extends Controller
                 $inserdb = [];
                 $inserdb['name'] = $validate['name'];
                 $inserdb['email'] = $validate['email'];
+                $inserdb['role_id'] = $validate['role_id'];
                 $inserdb['password'] = Hash::make($validate['password']);
 
                 if ($user = Customer::create($inserdb)) {
-                    $user->assignRole($request->input('roles'));
-
                 return responseWithSuccess(__('message.save_form'), 200);
-            } else {
-                return responseWithError(__('message.not_success'), 204);
+                }
             }
-        }
-
-
+        
     }
 
 
@@ -142,7 +136,7 @@ class CustomersController extends Controller
     // destory function
     public function destroy(Request $request)
     {
-        abort_if(Gate::denies('user_delete'),  Response::HTTP_FORBIDDEN,'403 Forbidden' );
+       
         try {
             $validator = Validator::make($request->only('id'), [
                 'id' => 'required|integer',
@@ -169,8 +163,7 @@ class CustomersController extends Controller
         $username = Auth::user()->name;
         $email = Auth::user()->email;
         $branch = Auth::user()->branches->pluck('name');
-       // dd($branch);
-       $role= Auth::user()->roles->pluck('name');
+       $role= Auth::user()->role->pluck('name');
 
        $user_data=array();
        $user_data['username']=$username;

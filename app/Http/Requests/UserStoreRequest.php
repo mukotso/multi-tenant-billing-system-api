@@ -29,7 +29,6 @@ class UserStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5|max:20',
-
             'email' => [
                 'bail',
                 'required',
@@ -37,8 +36,8 @@ class UserStoreRequest extends FormRequest
                 'max:50',
                 'unique:users,email',
             ],
-            'user_password' =>['bail', 'required', 'min:8', 'max:50'],
-            'roles' => ['bail', 'required', 'min:1', 'max:50'],
+            'password' =>['bail', 'required', 'min:8', 'max:50'],
+            'role_id' => ['bail', 'required', 'exists:roles,id'],
         ];
     }
 }
