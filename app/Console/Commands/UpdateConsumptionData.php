@@ -23,23 +23,26 @@ class UpdateConsumptionData extends Command
         $meters = Meter::all();
         $currentDate = Carbon::now();
 
-        foreach ($meters as $meter) {
-            $totalConsumption = $meter->current_reading - $meter->previous_reading;
+        $meters->chunk(100)->each(function ($meterChunk) use ($currentDate) {
+            foreach ($meterChunk as $meter) {
+                $totalConsumption = $meter->current_reading - $meter->previous_reading;
 
-            // Insert data into the consumptions table
-            Consumption::create([
-                'meter_id' => $meter->id,
-                'tenant_id' => $meter->tenant_id,
-                'consumption_date' => $currentDate,
-                'total_consumption' => $totalConsumption,
-                'rate' => $this->calculateRate($meter), 
-                'status' => 'pending',
-            ]);
+                // Insert data into the consumptions table
+                Consumption::create([
+                    'meter_id' => $meter->id,
+                    'tenant_id' => $meter->tenant_id,
+                    'consumption_date' => $currentDate,
+                    'total_consumption' => $totalConsumption,
+                    'rate' => $this->calculateRate($meter), 
+                    'status' => 'pending',
+                ]);
 
-            // update the previous reading for the meter
-            $meter->previous_reading = $meter->current_reading;
-            $meter->save();
-        }
+                // update the previous reading for the meter
+                $meter->previous_reading = $meter->current_reading;
+                $meter->save();
+            }
+        });
+        
 
         $this->info('Consumption data updated successfully.');
     }
