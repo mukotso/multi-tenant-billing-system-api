@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\PaginationsTrait;
 
 class Meter extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, PaginationsTrait;
 
 
     protected $table = 'meters';
@@ -20,7 +21,7 @@ class Meter extends Model
         'meter_type_id',
         'timezone',
         'current_reading',
-        'user_id',
+        'previous_reading',
     ];
 
     public static function boot(): void

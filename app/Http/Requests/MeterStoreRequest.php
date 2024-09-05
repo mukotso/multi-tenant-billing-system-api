@@ -30,11 +30,11 @@ class MeterStoreRequest extends FormRequest
         return [
             'name' => [
                 'bail',
-                'required','min:3','max:5',
-                new UniqueConditions(Meter::class, 'code')
+                'required'
 
             ],
-            'tenant_id' => 'required|min:3|max:10',
+            'tenant_id' => ['bail', 'required', 'exists:tenants,id'],
+            'meter_type_id' => ['bail', 'required', 'exists:meter_types,id'],
         ];
     }
 }
