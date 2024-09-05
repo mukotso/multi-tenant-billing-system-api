@@ -20,6 +20,7 @@ class Tenant extends Authenticatable
         'name',
         'email',
         'customer_id',
+        'customer_id',
     ];
 
     public static function boot(): void
