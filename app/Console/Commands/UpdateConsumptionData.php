@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\Meter;
 use App\Models\Consumption;
 use Carbon\Carbon;
-
+use App\Models\Rate;
 class UpdateConsumptionData extends Command
 {
     protected $signature = 'consumption:update';
@@ -33,7 +33,7 @@ class UpdateConsumptionData extends Command
                     'tenant_id' => $meter->tenant_id,
                     'consumption_date' => $currentDate,
                     'total_consumption' => $totalConsumption,
-                    'rate' => $this->calculateRate($meter), 
+                    'rate' => $this->calculateRate($totalConsumption,$meter), 
                     'status' => 'pending',
                 ]);
 
@@ -47,10 +47,12 @@ class UpdateConsumptionData extends Command
         $this->info('Consumption data updated successfully.');
     }
 
-    private function calculateRate($meter)
+    private function calculateRate($totalConsumption,$meter)
     {
         $rate = Rate::where('meter_type_id', $meter->meter_type_id)
-            ->whereBetween($totalConsumption, ['from', 'to'])
+            ->where('tenant_id', $meter->tenant_id)
+            ->where('from', '<=', $totalConsumption)
+            ->where('to', '>=', $totalConsumption)
             ->first();
         
             return $rate->cost;

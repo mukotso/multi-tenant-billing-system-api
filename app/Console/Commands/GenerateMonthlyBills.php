@@ -3,7 +3,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Consumption;
-use App\Models\Bill;
+use App\Models\Billing;
 use Carbon\Carbon;
 
 class GenerateMonthlyBills extends Command
@@ -35,7 +35,7 @@ class GenerateMonthlyBills extends Command
                 $grandTotal = $subtotal - $discount + $tax;
 
                 // Create a new bill
-                Bill::create([
+                Billing::create([
                     'meter_id' => $consumption->meter_id,
                     'tenant_id' => $consumption->tenant_id,
                     'usage' => $usage,

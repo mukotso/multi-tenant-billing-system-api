@@ -11,7 +11,7 @@ class Rate extends Model
 {
     use HasFactory;
     use PaginationsTrait;
-    use SoftDeletes;
+ 
     protected $fillable = [
         'note',
         'name',
